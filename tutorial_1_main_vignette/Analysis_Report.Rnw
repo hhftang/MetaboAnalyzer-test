@@ -1,0 +1,127 @@
+\documentclass[a4paper]{article}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{grffile}
+\DeclareUnicodeCharacter{200B}{\hspace{0pt}}
+<<echo=false>>=
+options(width=60);
+@
+\SweaveOpts{eps=FALSE,pdf=TRUE}
+\title{Metabolomic Data Analysis with MetaboAnalyst 6.0}
+\author{ Name: hhftang }
+\begin{document}
+\parskip=.3cm
+\maketitle
+\section{Data Processing and Normalization}
+\subsection{Reading and Processing the Raw Data}
+ MetaboAnalyst accepts a variety of data types generated in metabolomic studies, including compound concentration data, binned NMR/MS spectra data, NMR/MS peak list data, as well as MS spectra (NetCDF, mzXML, mzDATA). Users need to specify the data types when uploading their data in order for MetaboAnalyst to select the correct algorithm to process them.
+ Table 1 summarizes the result of the data processing steps.
+\subsection{Reading and Processing the Raw Data}
+ MetaboAnalyst accepts a variety of data types generated in metabolomic studies, including compound concentration data, binned NMR/MS spectra data, NMR/MS peak list data, as well as MS spectra (NetCDF, mzXML, mzDATA). Users need to specify the data types when uploading their data in order for MetaboAnalyst to select the correct algorithm to process them.
+ Table 1 summarizes the result of the data processing steps.
+ Error occured during reading the raw data .... Failed to proceed. Please check if the data format you uploaded is correct. Please use the OmicsForum (omicsforum.ca) for community based support!
+\subsection{Data Normalization}
+ The data is stored as a table with one sample per row and one variable (bin\slash peak\slash metabolite) per column. The normalization procedures implemented below are grouped into four categories. Sample specific normalization allows users to manually adjust concentrations based on biological inputs (i.e. volume, mass); row-wise normalization allows general-purpose adjustment for differences among samples; data transformation and scaling are two different approaches to make features more comparable. You can use one or combine both to achieve better results. 
+
+ The normalization consists of the following options:\begin{enumerate}
+\item{Row-wise procedures: }
+\begin{itemize}
+\item{Sample specific normalization (i.e. normalize by dry weight, volume) }
+\item{Normalization by the sum }
+\item{Normalization by the sample median }
+\item{Normalization by a reference sample (probabilistic quotient
+normalization)\footnote{Dieterle F, Ross A, Schlotterbeck G, Senn H. \textit{Probabilistic quotient normalization as robust
+method to account for dilution of complex biological mixtures. Application in 1H NMR metabonomics}, 2006,
+Anal Chem 78 (13);4281 - 4290}}
+\item{Normalization by a pooled or average sample from a particular group }
+\item{Normalization by a reference feature (i.e. creatinine, internal control) }
+\item{Quantile normalization }
+\end{itemize}
+\item{Data transformation : }
+\begin{itemize}
+\item{Log transformation (base 10)}
+\item{Square root transformation}
+\item{Cube root transformation}
+\end{itemize}
+\item{Data scaling: }
+\begin{itemize}
+\item{Mean centering (mean-centered only)}
+\item{Auto scaling (mean-centered and divided by standard deviation of each variable)}
+\item{Pareto scaling (mean-centered and divided by the square root of standard deviation of each variable)}
+\item{Range scaling (mean-centered and divided by the value range of each variable)}
+\end{itemize}
+\end{enumerate}
+
+
+
+Figure 1 shows the effects before and after normalization.
+
+Row-wise normalization: Quantile Normalization; Data transformation: Log10 Normalization; Data scaling: Mean Centering.
+
+
+
+\begin{figure}[htp]
+\begin{center}
+\includegraphics[width=1.0\textwidth]{feature_normdpi72.png}
+\caption{Box plots and kernel density plots before and after normalization.
+The boxplots show at most 50 features due to space limit. The density plots are based on all samples.}
+\end{center}
+\label{feature_normdpi72.png}
+\end{figure}
+\clearpage
+\clearpage
+\section{Statistical and Machine Learning Data Analysis}
+MetaboAnalyst offers a variety of methods commonly used in metabolomic data analyses.
+They include:
+
+\begin{enumerate}
+\item{Univariate analysis methods: }
+\begin{itemize}
+\item{Fold Change Analysis }
+\item{T-tests}
+\item{Volcano Plot}
+\item{One-way ANOVA and post-hoc analysis}
+\item{Correlation analysis}
+\end{itemize}
+\item{Multivariate analysis methods: }
+\begin{itemize}
+\item{Principal Component Analysis (PCA) }
+\item{Partial Least Squares - Discriminant Analysis (PLS-DA) }
+\end{itemize}
+\item{Robust Feature Selection Methods in microarray studies }
+\begin{itemize}
+\item{Significance Analysis of Microarray (SAM)}
+\item{Empirical Bayesian Analysis of Microarray (EBAM)}
+\end{itemize}
+\item{Clustering Analysis}
+\begin{itemize}
+\item{Hierarchical Clustering}
+\begin{itemize}
+\item{Dendrogram}
+\item{Heatmap}
+\end{itemize}
+\item{Partitional Clustering}
+\begin{itemize}
+\item{K-means Clustering}
+\item{Self-Organizing Map (SOM)}
+\end{itemize}
+\end{itemize}
+\item{Supervised Classification and Feature Selection methods}
+\begin{itemize}
+\item{Random Forest}
+\item{Support Vector Machine (SVM)}
+\end{itemize}
+\end{enumerate}
+\texttt{Please note: some advanced methods are available only for two-group sample analyais.}
+\clearpage
+\section{Appendix: R Command History}
+<<echo=false, results=verbatim>>=
+GetRCommandHistory(mSet);
+@
+\vspace{5 mm}
+--------------------------------
+
+ The report was generated on \Sexpr{date()} with \Sexpr{print(version$version.string)}, OS system: \Sexpr{Sys.info()['sysname']}.
+ \end{document}
+
